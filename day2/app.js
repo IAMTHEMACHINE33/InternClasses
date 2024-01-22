@@ -1,5 +1,5 @@
 const httpServer = require("./httpServer");
-const PORT = 7890;
+const PORT = 6969;
 
 httpServer.on("connection", () => {
   console.log("CONNECTED TO HTTP SERVER");
@@ -13,10 +13,11 @@ httpServer.on("request", (req, res) => {
       res.write("<html><head></head><body>Hello, World 0/</body></html>");
       res.end();
       break;
-    case "/json":
+    case "/heartbeat":
+      const hrtime = process.hrtime.bigint();
       res.setHeader("Content-Type", "application/json");
       res.writeHead(200);
-      res.write("{'foo': 'bar'}");
+      res.write(`{"heartbeat": ${hrtime}}`);
       res.end();
       break;
 
