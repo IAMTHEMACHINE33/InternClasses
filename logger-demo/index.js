@@ -13,14 +13,27 @@ const infoLogger = winston.createLogger({
   level: "info",
   format: combine(timestamp(), myFormat),
   defaultMeta: { service: "index" },
-  transports: [new winston.transports.Console()],
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "info.log", level: "info" }),
+  ],
+});
+
+const errorLogger = winston.createLogger({
+  level: "error",
+  format: combine(timestamp(), myFormat),
+  defaultMeta: { service: "index" },
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "error.log", level: "error" }),
+  ],
 });
 
 for (let i = 0; i < 10; ++i) {
   if (i % 2 === 0) {
     infoLogger.info(`${i} is even number.`);
   } else {
-    infoLogger.error(`${i} is odd number.`);
+    errorLogger.error(`${i} is odd number.`);
   }
 }
 
